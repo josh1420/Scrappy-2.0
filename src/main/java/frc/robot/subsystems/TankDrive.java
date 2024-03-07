@@ -5,10 +5,8 @@
 package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.VictorSPXControlMode;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
-import com.ctre.phoenix6.*;
 
-import edu.wpi.first.wpilibj.drive.DifferentialDrive;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 
@@ -20,7 +18,7 @@ public class TankDrive extends SubsystemBase {
   private VictorSPX rightMotor2 = new  VictorSPX(0);
   
   private CommandXboxController driver;
-  private boolean switchedDirection = false;
+  
   public TankDrive(CommandXboxController driver) {
    driver = this.driver;
 
@@ -40,10 +38,11 @@ public class TankDrive extends SubsystemBase {
   private void leftSide(double speed){
     leftMotor1.set(VictorSPXControlMode.PercentOutput, speed);
     leftMotor2.set(VictorSPXControlMode.PercentOutput, speed);
+    //puts 2 motors together so the programming will be easier from this point on
   }
   private void rightSide(double speed){
     rightMotor1.set(VictorSPXControlMode.PercentOutput, speed);
-    rightMotor1.set(VictorSPXControlMode.PercentOutput, speed);
+    rightMotor2.set(VictorSPXControlMode.PercentOutput, speed);
   }
 public void Drive(){
    /*switchedDirection = false;
