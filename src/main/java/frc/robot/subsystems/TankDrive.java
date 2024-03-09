@@ -6,7 +6,7 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.VictorSPXControlMode;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
-
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 
@@ -19,8 +19,8 @@ public class TankDrive extends SubsystemBase {
   
   private CommandXboxController driver;
   
-  public TankDrive(CommandXboxController driver) {
-   driver = this.driver;
+  public TankDrive(CommandXboxController controller) {
+   driver = controller;
 
   }
 
@@ -66,7 +66,9 @@ public void Spin(){
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    
+    SmartDashboard.putNumber("Left Side Voltage", leftMotor1.getMotorOutputVoltage());
+    SmartDashboard.putNumber("Right Side Voltage", rightMotor1.getMotorOutputVoltage());
+    //shows the voltage going to each side of the drive train in real time
     //updates the values frequently on the motor's inversion state
   }
 
