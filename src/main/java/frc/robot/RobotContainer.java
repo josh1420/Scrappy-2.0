@@ -56,7 +56,7 @@ private final TankDrive m_TankDrive = new TankDrive(m_driverController);
     // cancelling on release.
    new Trigger(() -> m_driverController.getLeftY()>0.1 || m_driverController.getLeftY()<0.1).onTrue(new Drive(m_TankDrive));
     //uses a lambda expression ^ for the BooleanSupplier so the command will run when the specified statement is true
-   new Trigger(() -> m_driverController.getRightX()>0.1 || m_driverController.getLeftY()<0.1).whileTrue(new Spin(m_TankDrive));
+   new Trigger(() -> m_driverController.getRightX()>0.1 || m_driverController.getLeftY()<0.1).onTrue(new Spin(m_TankDrive));
    //does the same thing but instead of driving it spins
   }
 
