@@ -3,27 +3,29 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot.subsystems;
-import com.ctre.phoenix.motorcontrol.VictorSPXControlMode;
-import com.ctre.phoenix.motorcontrol.can.VictorSPX;
+import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 
 public class TankDrive extends SubsystemBase {
 //varibles here
-  private VictorSPX leftMotor1 = new VictorSPX(1);
-  private VictorSPX leftMotor2 = new VictorSPX(4);
-  private VictorSPX rightMotor1 = new VictorSPX(3);
-  private VictorSPX rightMotor2 = new  VictorSPX(0);
+  private WPI_VictorSPX leftMotor1 = new WPI_VictorSPX(0);
+  private WPI_VictorSPX leftMotor2 = new WPI_VictorSPX(3);
+  private WPI_VictorSPX rightMotor1 = new WPI_VictorSPX(4);
+  private WPI_VictorSPX rightMotor2 = new  WPI_VictorSPX(1);
+ 
+  private DifferentialDrive driveSys;
   
   private CommandXboxController driver;
   
   public TankDrive(CommandXboxController controller) {
-   driver = controller;
-
+   leftMotor2.follow(leftMotor1);
+   rightMotor2.follow(rightMotor1);
+    driver = controller;
+ driveSys = new DifferentialDrive(leftMotor1, rightMotor1);
   }
-
   /**
    * Example command factory method.
    *
@@ -35,39 +37,29 @@ public class TankDrive extends SubsystemBase {
    *
    * @return value of some boolean subsystem state, such as a digital sensor.
    */
-  private void leftSide(double speed){
-    leftMotor1.set(VictorSPXControlMode.PercentOutput, speed);
-    leftMotor2.set(VictorSPXControlMode.PercentOutput, speed);
-    //puts 2 motors together so the programming will be easier from this point on
-  }
-  private void rightSide(double speed){
-    rightMotor1.set(VictorSPXControlMode.PercentOutput, speed);
-    rightMotor2.set(VictorSPXControlMode.PercentOutput, speed);
-  }
+
 public void Drive(){
    /*switchedDirection = false;
     leftSide.setInverted(switchedDirection);*/
-    leftSide(7.25*driver.getLeftY());
-    rightSide(7.25*driver.getLeftY());
+    driveSys.arcadeDrive(driver.getLeftY(), driver.getRightX());
     // moves the robot forward or backward depening on if you move the joystick  up or down
 }
 
 
-public void Spin(){
+/*public void Spin(){
    /*  switchedDirection = false;
     leftSide.setInverted(switchedDirection);
-    rightSide.setInverted(!switchedDirection);*/
+    rightSide.setInverted(!switchedDirection);
     leftSide(7.25*driver.getRightX());
     rightSide(-7.25*driver.getLeftY());
-      //inverts 1 motor and spins both
-}
+      //inverts 1 motor and spins both*/
+
 
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    SmartDashboard.putNumber("Left Side Voltage", leftMotor1.getMotorOutputVoltage());
-    SmartDashboard.putNumber("Right Side Voltage", rightMotor1.getMotorOutputVoltage());
+   
     //shows the voltage going to each side of the drive train in real time
     //updates the values frequently on the motor's inversion state
   }
